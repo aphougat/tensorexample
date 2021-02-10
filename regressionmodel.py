@@ -29,6 +29,7 @@ with tf.compat.v1.Session() as sess:
         for (x, y) in zip(x_train, y_train):
             sess.run(train_op, feed_dict={X: x, Y: y})
     w_val = sess.run(w)
+    print(w_val)
 plt.scatter(x_train, y_train)
 y_learning = x_train * w_val
 plt.plot(x_train, y_learning, 'r')
