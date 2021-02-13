@@ -1,5 +1,7 @@
 import csv
 import time
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 def read(filename, date_idx, date_parse, year, bucket=7):
@@ -19,6 +21,13 @@ def read(filename, date_idx, date_parse, year, bucket=7):
     return freq
 
 
-freq = read("/Users/abhayphougat/Downloads/311.csv", 1, '%m/%d/%Y %H:%M:%S %p', 2014)
+freq = read("./data/311.csv", 1, '%m/%d/%Y %H:%M:%S %p', 2014)
 
-print(freq)
+x_train = np.asarray(list(freq.keys()))
+y_train = np.asarray(list(freq.values()))
+maxY = y_train.max()
+ny_train = y_train / maxY
+plt.scatter(x_train, ny_train)
+plt.show()
+
+#print(freq)
