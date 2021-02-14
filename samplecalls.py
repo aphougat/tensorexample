@@ -28,6 +28,6 @@ y_train = np.asarray(list(freq.values()))
 maxY = y_train.max()
 ny_train = y_train / maxY
 plt.scatter(x_train, ny_train)
-plt.show()
+#plt.show()
 
 #print(freq)

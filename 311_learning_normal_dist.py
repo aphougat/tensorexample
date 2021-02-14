@@ -7,9 +7,13 @@ learning_rate = 1.5
 epochs = 5000
 
 
-def model(x, mu, sigma):
-    return tf.exp(tf.divide(tf.negative(tf.pow(x - mu, 2.0)), tf.pow(sigma, 2.0)))
+def model(x_value, mu_value, sigma_value):
+    return tf.exp(tf.divide(tf.negative(tf.pow(tf.subtract(x_value,  mu_value), 2.0)),
+                            tf.multiply(2.0, tf.pow(sigma_value, 2.0))))
 
+
+def normal_dist(x, mu, sigma):
+    return np.exp(- np.power((x - mu), 2.0) / np.power(sigma, 2.0))
 
 with tf.compat.v1.Session() as sess:
     X = tf.compat.v1.placeholder(tf.float32)
@@ -25,10 +29,15 @@ with tf.compat.v1.Session() as sess:
 
     for epoch in range(epochs):
         for (x, y) in zip(x_train, ny_train):
+            #print(x, y)
             sess.run(train_op, feed_dict={X: x, Y: y})
 
     mu_val = sess.run(mu)
     sig_val = sess.run(sigma)
+    plt.plot(x_train, normal_dist(x_train, mu_val, sig_val))
+    plt.show()
+    # print(mu_val)
+    # print(sig_val)
+    sess.close()
 
-    print(mu_val)
-    print(sig_val)
+
