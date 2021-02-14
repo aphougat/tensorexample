@@ -1,6 +1,5 @@
-import numpy as np
 import tensorflow as tf
-import matplotlib.pyplot as plt
+import functools as ft
 from samplecalls import *
 
 learning_rate = 1.5
@@ -34,10 +33,22 @@ with tf.compat.v1.Session() as sess:
 
     mu_val = sess.run(mu)
     sig_val = sess.run(sigma)
-    plt.plot(x_train, normal_dist(x_train, mu_val, sig_val))
+    p_y_value = normal_dist(x_train, mu_val, sig_val)
+    plt.plot(x_train, p_y_value)
     plt.show()
-    # print(mu_val)
-    # print(sig_val)
+    print("predicted value is %s" % p_y_value[33])
+    print("actual value for week 35 is %s" % ny_train[33])
+
+    error = np.power(np.power(ny_train - p_y_value, 2.0), 0.5)
+    plt.bar(x_train, error)
+    plt.show()
+
+    avg_error = ft.reduce(lambda a, b: a+b, ny_train - p_y_value)
+    avg_error = np.abs(avg_error) / len(x_train)
+    print("average error is %s " % avg_error)
+    accuracy = 1.0 - (avg_error / maxY)
+    print("accuracy is %s" % accuracy)
+
     sess.close()
 
 
